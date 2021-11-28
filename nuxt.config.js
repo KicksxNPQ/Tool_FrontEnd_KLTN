@@ -4,7 +4,13 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: 'fe',
+    title: 'Tool gán dữ liệu',
+    env: {
+      API_ENDPOINT: process.env.API_ENDPOINT
+    },
+    server: {
+      PORT: process.env.PORT
+    },
     htmlAttrs: {
       lang: 'en'
     },
@@ -34,6 +40,7 @@ export default {
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
+    '@nuxtjs/dotenv'
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
