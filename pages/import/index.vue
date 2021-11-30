@@ -1,12 +1,13 @@
 <template>
     <div>
         <h1>Tool gán dữ liệu</h1>
+        <h2>Image ID: <span v-if="captions">{{captions[0].image_id}}</span></h2>
         <div class="image" v-if="image">
             <img :src="image.flickr_url" style="width: 100%"/>
         </div>
         <div class="caption" v-if="captions">
             <div v-for="(caption, index) in captions" :key="caption.id">
-                <p>Label{{index + 1}}: {{caption.caption}}</p>
+                <p>Label {{index + 1}}: {{caption.caption}}</p>
             </div>
         </div>
         <div class="newcaption" v-if="newcaptions">
@@ -55,6 +56,9 @@ export default {
                 })
             })
         },
+        countWords: function(str) {
+            return str.trim().split(' ').filter((ele) => ele !== '').length;
+        },
         submit: function() {
             let check = true;
             for (let i = 0; i < 5; i++) {
@@ -65,6 +69,18 @@ export default {
                         message: 'Error',
                         description: `Caption in label ${i+1} is empty`
                     })
+                }
+            }
+            if (check) {
+                for (let i = 0; i < 5; i++) {
+                    if (this.countWords(this.newcaptions[i].caption) < 10) {
+                        check = false;
+                        this.$notification.error({
+                            key: `Err label ${i}`,
+                            message: 'Error',
+                            description: `Caption in label ${i+1} must be at least 10 words`
+                        })
+                    }
                 }
             }
             if (check) {
