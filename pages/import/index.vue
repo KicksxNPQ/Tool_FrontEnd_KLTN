@@ -4,7 +4,7 @@
         <h2>Image ID: <span v-if="captions">{{captions[0].image_id}}</span></h2>
         <div class="image" v-if="image">
             <img :src="`http://images.cocodataset.org/train2017/${convertImage(captions[0].image_id)}.jpg`" style="width: 100%"/>
-        </div>
+        </div> 
         <div class="caption" v-if="captions">
             <div v-for="(caption, index) in captions" :key="caption.id">
                 <p>Label {{index + 1}}: {{caption.caption}}</p>
