@@ -3,7 +3,7 @@
         <h1>Tool gán dữ liệu</h1>
         <h2>Image ID: <span v-if="captions">{{captions[0].image_id}}</span></h2>
         <div class="image" v-if="image">
-            <img :src="image.flickr_url" style="width: 100%"/>
+            <img :src="`http://images.cocodataset.org/train2017/${convertImage(captions[0].image_id)}.jpg`" style="width: 100%"/>
         </div>
         <div class="caption" v-if="captions">
             <div v-for="(caption, index) in captions" :key="caption.id">
@@ -55,6 +55,11 @@ export default {
                     this.newcaptions = cloneDeep(res);
                 })
             })
+        },
+        convertImage: function(image_id) {
+            let str = image_id.toString();
+            while(str.length < 12) str = "0" + str;
+            return str;
         },
         countWords: function(str) {
             return str.trim().split(' ').filter((ele) => ele !== '').length;
