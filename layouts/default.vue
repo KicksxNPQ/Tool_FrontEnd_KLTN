@@ -1,13 +1,19 @@
 <template>
     <div class="main">
         <div class="mg-auto layer">
+            <a-spin class="spin" tip = "Loading labels..." v-if="loadingSpin"/>
             <Nuxt />
         </div>
     </div>
 </template>
 <script>
+import {mapState} from 'vuex'
 export default {
-    
+    computed: {
+        ...mapState({
+            loadingSpin: state => state.loadingSpin
+        })
+    }
 }
 </script>
 
@@ -17,9 +23,10 @@ export default {
     height: 100%;
     background-color: rgb(245,245,245);
     padding: 20px 0;
+    overflow-y: scroll;
     > .layer {
         width: 700px;
-        height: 100%;
+        min-height: 100%;
         background-color: white;
         padding: 35px 20px;
         border-radius: 16px;
@@ -28,6 +35,13 @@ export default {
 
 .mg-auto {
     margin: auto;
+}
+
+.spin {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 </style>

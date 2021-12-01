@@ -1,10 +1,17 @@
 <template>
-    <div>
+    <div style="position: relative">
         <h1>Tool gán dữ liệu</h1>
         <h2>Image ID: <span v-if="captions">{{captions[0].image_id}}</span></h2>
         <div class="image" v-if="image">
             <img :src="`http://images.cocodataset.org/train2017/${convertImage(captions[0].image_id)}.jpg`" style="width: 100%"/>
         </div> 
+        <div v-if="image">
+            <p>Try the following links if the image isn't show</p>
+            <a :href="`http://images.cocodataset.org/train2017/${convertImage(captions[0].image_id)}.jpg`" target="_blank">
+                http://images.cocodataset.org/train2017/{{convertImage(captions[0].image_id)}}.jpg
+            </a>
+            <a :href="image.flickr_url" target="_blank">{{image.flickr_url}}</a>
+        </div>
         <div class="caption" v-if="captions">
             <div v-for="(caption, index) in captions" :key="caption.id">
                 <p>Label {{index + 1}}: {{caption.caption}}</p>
@@ -22,7 +29,7 @@
             </template>
         </div>
         <div class="submit" v-if="newcaptions">
-            <a-button type="primary" @click="submit">Save & Next</a-button>
+            <a-button type="primary" @click="submit" :loading="saveLoading">Save & Next</a-button>
         </div>
     </div>
 </template>
@@ -33,6 +40,7 @@ import {cloneDeep} from 'lodash'
 export default {
     data() {
         return {
+            saveLoading: false,
             image: null,
             captions: null,
             newcaptions: null
@@ -48,7 +56,12 @@ export default {
             saveVieCaption: 'saveVieCaption'
         }),
         loadRecords: function() {
+            this.$store.commit('setLoadingSpin', true);
+            this.image = null;
+            this.captions = null;
+            this.newcaptions = null
             this.loadLabels().then(res => {
+                this.$store.commit('setLoadingSpin', false);
                 this.image = cloneDeep(res.image);
                 this.captions = cloneDeep(res.captions);
                 this.createVieCaption(res.image.image_id).then(res => {
@@ -89,12 +102,14 @@ export default {
                 }
             }
             if (check) {
+                this.saveLoading = true;
                 this.saveVieCaption(this.newcaptions).then(res => {
+                    this.saveLoading = false;
                     this.$message.success(res);
                     this.loadRecords();
                 }).catch(err => {
+                    this.saveLoading = false;
                     this.$message.error(err);
-                    this.loadRecords();
                 })
             }
         }
@@ -115,4 +130,5 @@ export default {
 .submit {
     margin-top: 15px;
 }
+
 </style>
