@@ -25,7 +25,8 @@ export default {
     padding: 20px 0;
     overflow-y: scroll;
     > .layer {
-        width: 700px;
+        min-width: 700px;
+        width: 80%;
         min-height: 100%;
         background-color: white;
         padding: 35px 20px;
