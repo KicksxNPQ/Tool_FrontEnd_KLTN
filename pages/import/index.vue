@@ -7,7 +7,7 @@
                     <div class="image" v-if="image">
                         <img :src="`http://images.cocodataset.org/train2017/${convertImage(captions[0].image_id)}.jpg`" style="width: 100%"/>
                     </div> 
-                    <div v-if="image">
+                    <div v-if="image" style="display: grid">
                         <p>Try the following links if the image isn't show</p>
                         <a :href="`http://images.cocodataset.org/train2017/${convertImage(captions[0].image_id)}.jpg`" target="_blank">
                             http://images.cocodataset.org/train2017/{{convertImage(captions[0].image_id)}}.jpg
