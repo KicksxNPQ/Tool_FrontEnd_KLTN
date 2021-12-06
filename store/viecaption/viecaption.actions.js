@@ -22,5 +22,18 @@ export default {
                     reject(res.data.error);
             })
         })
+    },
+    getVieCaption({}) {
+        const url = `${API_ENDPOINT}/api/viecaption`;
+        return new Promise((resolve, reject) => {
+            this.$axios.get(url).then(res => {
+                if (!res.data.error) {
+                    resolve(res.data);
+                }
+                else {
+                    reject(res.data.error);
+                }
+            })
+        })
     }
 }

@@ -5,7 +5,7 @@
             <a-col :span="12">
                 <h2>Image ID: <span v-if="captions">{{captions[0].image_id}}</span></h2>
                     <div class="image" v-if="image">
-                        <img :src="`http://images.cocodataset.org/train2017/${convertImage(captions[0].image_id)}.jpg`" style="width: 100%"/>
+                        <img :src="image.flickr_url" style="width: 100%"/>
                     </div> 
                     <div v-if="image" style="display: grid">
                         <p>Try the following links if the image isn't show</p>
