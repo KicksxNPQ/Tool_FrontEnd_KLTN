@@ -19,7 +19,10 @@
         :key="image._id"
       >
         <h3>Image ID: {{image._id}}</h3>
-        <img :src="image.flickr_url" />
+        <img :src="image.flickr_url"/>
+        <a :href="`http://images.cocodataset.org/train2017/${convertImage(image._id)}.jpg`" target="_blank">
+          {{`http://images.cocodataset.org/train2017/${convertImage(image._id)}.jpg`}}
+        </a>
         <div class="captions" >
             <div v-for="(caption, j) in image.captions" :key="caption._id" class="recommend" >
               <a-checkbox v-if ="caption.open !== undefined" :checked="imageList[i].captions[j].open" @change="changeCheckbox($event,i,j)">
@@ -76,6 +79,11 @@ export default {
       getVieCaption: 'getVieCaption',
       saveRecCaption: 'saveRecCaption'
     }),
+     convertImage: function(image_id) {
+            let str = image_id.toString();
+            while(str.length < 12) str = "0" + str;
+            return str;
+        },
     loadRecords: function() {
       this.$store.commit('setLoadingSpin', true);
       this.getVieCaption().then(res => {
@@ -151,7 +159,8 @@ export default {
               if (this.imageList[index].captions[j].open) {
                 if (this.imageList[index].captions[j].error) {
                     console.log(this.$refs.listImage.children[index].children[2].children[j]);
-                    this.$refs.listImage.children[index].children[2].children[j].scrollIntoView();
+                    this.$refs.listImage.children[index].children[3].children[j].scrollIntoView();
+                    this.saveLoading = false;
                   return;
                 }
               }
@@ -178,6 +187,7 @@ export default {
               message: 'Error',
               description: err
             })
+            this.saveLoading = false;
           })
       })
 
