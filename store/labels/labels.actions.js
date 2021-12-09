@@ -9,5 +9,15 @@ export default {
                 resolve(res.data);
             })   
         })
+    },
+
+    saveRecCaption({}, obj) {
+        const url = `${API_ENDPOINT}/api/reccaption`;
+        return new Promise((resolve,reject) => {
+            this.$axios.post(url, obj).then(res => {
+                if (!res.errors) resolve(true);
+                reject(res.errors);
+            })
+        })
     }
 }
